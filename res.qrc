@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>android/assets/de_Adjective</file>
+        <file>android/assets/de_Adverb</file>
+        <file>android/assets/de_Noun</file>
+        <file>android/assets/de_Verb</file>
+        <file>android/assets/en_Adjective</file>
+        <file>android/assets/en_Adverb</file>
+        <file>android/assets/en_Noun</file>
+        <file>android/assets/en_Verb</file>
+        <file>android/assets/es_Adjective</file>
+        <file>android/assets/es_Adverb</file>
+        <file>android/assets/es_Noun</file>
+        <file>android/assets/es_Verb</file>
+        <file>android/assets/fr_Adjective</file>
+        <file>android/assets/fr_Adverb</file>
+        <file>android/assets/fr_Noun</file>
+        <file>android/assets/fr_Verb</file>
+        <file>android/assets/it_Adjective</file>
+        <file>android/assets/it_Adverb</file>
+        <file>android/assets/it_Noun</file>
+        <file>android/assets/it_Verb</file>
+        <file>android/assets/pt_Adjective</file>
+        <file>android/assets/pt_Adverb</file>
+        <file>android/assets/pt_Noun</file>
+        <file>android/assets/pt_Verb</file>
+        <file>android/assets/ru_Adjective</file>
+        <file>android/assets/ru_Adverb</file>
+        <file>android/assets/ru_Noun</file>
+        <file>android/assets/ru_Verb</file>
+    </qresource>
+</RCC>

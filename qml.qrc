@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>LogoForm.ui.qml</file>
+        <file>MenuForm.ui.qml</file>
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>TranslationsForm.ui.qml</file>
+        <file>WordForm.ui.qml</file>
+        <file>CategorySelectionForm.ui.qml</file>
+    </qresource>
+</RCC>
