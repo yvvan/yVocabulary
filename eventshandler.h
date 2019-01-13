@@ -17,6 +17,116 @@ enum class CurrentAction : uint8_t {
   RepeatWords
 };
 
+class QDataEntry : public QObject {
+  Q_OBJECT
+  Q_PROPERTY(QString translations MEMBER translations_ NOTIFY Changed)
+  Q_PROPERTY(QString native_description MEMBER native_description_ NOTIFY Changed)
+  Q_PROPERTY(QString synonyms MEMBER synonyms_ NOTIFY Changed)
+  Q_PROPERTY(QString examples MEMBER examples_ NOTIFY Changed)
+public:
+  QDataEntry() = default;
+  QDataEntry(const QDataEntry& entry) {
+    translations_ = entry.translations_;
+    native_description_ = entry.native_description_;
+    synonyms_ = entry.synonyms_;
+    examples_ = entry.examples_;
+  }
+  ~QDataEntry() {}
+  QDataEntry &operator=(const QDataEntry& entry) {
+    translations_ = entry.translations_;
+    native_description_ = entry.native_description_;
+    synonyms_ = entry.synonyms_;
+    examples_ = entry.examples_;
+    return *this;
+  }
+  QDataEntry(const Utils::DataEntry& data_entry) {
+    translations_ = QString::fromStdString(data_entry.translations_);
+    native_description_ = QString::fromStdString(data_entry.native_description_);
+    synonyms_ = QString::fromStdString(data_entry.synonyms_);
+    examples_ = QString::fromStdString(data_entry.examples_);
+  }
+  bool operator!=(const QDataEntry &entry) {
+    return translations_ != entry.translations_ ||
+        native_description_ != entry.native_description_ ||
+        synonyms_ != entry.synonyms_ || examples_ != entry.examples_;
+  }
+
+  Utils::DataEntry toDataEntry() const {
+    Utils::DataEntry entry;
+    entry.translations_ = translations_.toStdString();
+    entry.native_description_ = native_description_.toStdString();
+    entry.synonyms_ = synonyms_.toStdString();
+    entry.examples_ = examples_.toStdString();
+    return entry;
+  }
+
+signals:
+  void Changed();
+
+private:
+  QString translations_;
+  QString native_description_;
+  QString synonyms_;
+  QString examples_;
+};
+
+Q_DECLARE_METATYPE(QDataEntry)
+
+class QData : public QObject {
+  Q_OBJECT
+  Q_PROPERTY(QDataEntry* main READ main NOTIFY Changed)
+  Q_PROPERTY(QDataEntry* target READ target NOTIFY Changed)
+  Q_PROPERTY(QDataEntry* english READ english NOTIFY Changed)
+public:
+  QData() = default;
+  QData(const QData& data) {
+    main_ = data.main_;
+    target_ = data.target_;
+    english_ = data.english_;
+  }
+  ~QData() {}
+  QData &operator=(const QData& data) {
+    main_ = data.main_;
+    target_ = data.target_;
+    english_ = data.english_;
+    return *this;
+  }
+  QData(const Utils::Data &data)
+      : main_(data.main_), target_(data.target_), english_(data.english_) {}
+  bool operator!=(const QData &data) {
+    return main_ != data.main_ || target_ != data.target_ ||
+        english_ != data.english_;
+  }
+
+  Utils::Data toData() const {
+    Utils::Data data;
+    data.main_ = main_.toDataEntry();
+    data.target_ = target_.toDataEntry();
+    data.english_ = english_.toDataEntry();
+    return data;
+  }
+
+  QDataEntry* main() {
+    return &main_;
+  }
+  QDataEntry* target() {
+    return &target_;
+  }
+  QDataEntry* english() {
+    return &english_;
+  }
+
+signals:
+  void Changed();
+
+private:
+  QDataEntry main_;
+  QDataEntry target_;
+  QDataEntry english_;
+};
+
+Q_DECLARE_METATYPE(QData)
+
 class EventsHandler : public QObject {
   Q_OBJECT
   Q_PROPERTY(bool new_button READ Dummy WRITE ClickNewButton)
@@ -28,9 +138,9 @@ class EventsHandler : public QObject {
   Q_PROPERTY(bool adverbs_button READ Dummy WRITE ClickAdverbsButton)
   Q_PROPERTY(bool all_button READ Dummy WRITE ClickAllButton)
 
-  Q_PROPERTY(QString translation READ CurrentTranslation NOTIFY TranslationChanged)
-  Q_PROPERTY(QString next_translation READ NextTranslation NOTIFY NextTranslationChanged)
-  Q_PROPERTY(QString prev_translation READ PrevTranslation NOTIFY PrevTranslationChanged)
+  Q_PROPERTY(QData* translation READ current_translation NOTIFY TranslationChanged)
+  Q_PROPERTY(QData* next_translation READ next_translation NOTIFY NextTranslationChanged)
+  Q_PROPERTY(QData* prev_translation READ prev_translation NOTIFY PrevTranslationChanged)
 
   Q_PROPERTY(bool swipe READ Dummy WRITE Swipe)
 public:
@@ -60,9 +170,15 @@ public:
     return target_language_;
   }
 
-  QString CurrentTranslation() const;
-  QString NextTranslation() const;
-  QString PrevTranslation() const;
+  QData* prev_translation() {
+    return &prev_translation_;
+  }
+  QData* current_translation() {
+    return &current_translation_;
+  }
+  QData* next_translation() {
+    return &next_translation_;
+  }
 
 signals:
     void CancelRequests();
@@ -80,9 +196,9 @@ private:
 
   std::unique_ptr<Translator> translator_;
 
-  Utils::Data prev_translation_;
-  Utils::Data current_translation_;
-  Utils::Data next_translation_;
+  QData prev_translation_;
+  QData current_translation_;
+  QData next_translation_;
 
   Utils::Language main_language_ = Utils::English;
   Utils::Language target_language_ = Utils::German;

@@ -44,6 +44,9 @@ int main(int argc, char *argv[])
                        },
                        Qt::QueuedConnection);
 
+  qmlRegisterInterface<QDataEntry>("DataEntry");
+  qmlRegisterInterface<QData>("Data");
+
   EventsHandler cpp_handler;
   engine.rootContext()->setContextProperty("cpp_handler", &cpp_handler);
   engine.load(mainQml);

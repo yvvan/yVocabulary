@@ -323,18 +323,6 @@ void EventsHandler::onNewWordsInCategoryClicked() {
 //  ui_->scrollAreaLayout->addStretch();
 }
 
-QString EventsHandler::CurrentTranslation() const {
-  return QString::fromStdString(current_translation_.main_.translations_);
-}
-
-QString EventsHandler::NextTranslation() const {
-  return QString::fromStdString(next_translation_.main_.translations_);
-}
-
-QString EventsHandler::PrevTranslation() const {
-  return QString::fromStdString(prev_translation_.main_.translations_);
-}
-
 void EventsHandler::ClickNounsButton(bool) {
   category_ = initial_category_ = Utils::Key::Noun;
   revealed_ = one_shot_ = false;
@@ -372,7 +360,7 @@ void EventsHandler::Swipe(bool forward) {
       prev_translation_ = current_translation_;
       emit PrevTranslationChanged();
       translator_->RemoveAt(category_, 0);
-      translator_->AddLeart(category_, current_translation_);
+      translator_->AddLeart(category_, current_translation_.toData());
       onNewWordsInCategoryClicked();
       return;
     }

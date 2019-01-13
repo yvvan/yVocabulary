@@ -25,7 +25,7 @@ Page {
                     id: label
                     Layout.minimumWidth: innerSwipeView.width - 30
                     width: innerSwipeView.width - 30
-                    text: current ? cpp_handler.translation : (next ? cpp_handler.next_translation : cpp_handler.prev_translation)
+                    text: current ? cpp_handler.translation.main.translations : (next ? cpp_handler.next_translation.main.translations : cpp_handler.prev_translation.main.translations)
                     wrapMode: Label.WordWrap
                 }
             }
@@ -40,7 +40,7 @@ Page {
             Label {
                 id: label2
                 width: app.width - 30
-                text: cpp_handler.next_translation
+                text: "123" //cpp_handler.next_translation
             }
         }
     }

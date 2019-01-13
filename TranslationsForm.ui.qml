@@ -56,7 +56,7 @@ Page {
                 id: page3
                 WordForm {
                     current: innerSwipeView.currentItem == page3
-                    next: innerSwipeView.currentItem == page3
+                    next: innerSwipeView.currentItem == page2
                 }
             }
 
