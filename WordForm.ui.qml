@@ -5,7 +5,6 @@ import QtQuick.Layouts 1.3
 Page {
     width: innerSwipeView.width
     height: innerSwipeView.height
-    property alias groupBox: groupBox
     property bool current: false
     property bool next: false
 
@@ -17,6 +16,7 @@ Page {
 
         GroupBox {
             id: groupBox
+            objectName: "target"
             width: innerSwipeView.width - 10
             title: qsTr("Group")
 
@@ -25,7 +25,7 @@ Page {
                     id: label
                     Layout.minimumWidth: innerSwipeView.width - 30
                     width: innerSwipeView.width - 30
-                    text: current ? cpp_handler.translation.main.translations : (next ? cpp_handler.next_translation.main.translations : cpp_handler.prev_translation.main.translations)
+                    text: current ? cpp_handler.translation.target.translations : (next ? cpp_handler.next_translation.target.translations : cpp_handler.prev_translation.target.translations)
                     wrapMode: Label.WordWrap
                 }
             }

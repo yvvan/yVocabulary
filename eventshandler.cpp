@@ -18,11 +18,28 @@ void EventsHandler::NameCategoriesButtons() {
   auto root_objects = engine_->rootObjects();
   assert(!root_objects.empty());
 
-  root_objects[0]->findChild<QObject*>("Nouns")->setProperty("text", QString::fromStdString(Utils::GetString(main_language_, Utils::Noun)));
-  root_objects[0]->findChild<QObject*>("Verbs")->setProperty("text", QString::fromStdString(Utils::GetString(main_language_, Utils::Verb)));
-  root_objects[0]->findChild<QObject*>("Adjectives")->setProperty("text", QString::fromStdString(Utils::GetString(main_language_, Utils::Adjective)));
-  root_objects[0]->findChild<QObject*>("Adverbs")->setProperty("text", QString::fromStdString(Utils::GetString(main_language_, Utils::Adverb)));
-  root_objects[0]->findChild<QObject*>("All")->setProperty("text", QString::fromStdString(Utils::GetString(main_language_, Utils::All)));
+  root_objects[0]->findChild<QObject *>("Nouns")->setProperty(
+      "text",
+      QString::fromStdString(Utils::GetString(main_language_, Utils::Noun)));
+  root_objects[0]->findChild<QObject *>("Verbs")->setProperty(
+      "text",
+      QString::fromStdString(Utils::GetString(main_language_, Utils::Verb)));
+  root_objects[0]
+      ->findChild<QObject *>("Adjectives")
+      ->setProperty("text",
+                    QString::fromStdString(
+                        Utils::GetString(main_language_, Utils::Adjective)));
+  root_objects[0]->findChild<QObject *>("Adverbs")->setProperty(
+      "text",
+      QString::fromStdString(Utils::GetString(main_language_, Utils::Adverb)));
+  root_objects[0]->findChild<QObject *>("All")->setProperty(
+      "text",
+      QString::fromStdString(Utils::GetString(main_language_, Utils::All)));
+
+  root_objects[0]->findChild<QObject *>("target")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(main_language_, Utils::CurrentWord)));
 }
 
 bool EventsHandler::IsEngineOnline() const {
