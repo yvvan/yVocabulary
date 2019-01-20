@@ -33,6 +33,7 @@ Page {
             }
             Switch {
                 text: qsTr("Reveal")
+                checked: current ? cpp_handler.translation.revealed : (next ? cpp_handler.next_translation.revealed : cpp_handler.prev_translation.revealed)
                 onClicked: current ? cpp_handler.translation.revealed
                                      = checked : (next ? cpp_handler.next_translation.revealed = checked : cpp_handler.prev_translation.revealed = checked)
             }
