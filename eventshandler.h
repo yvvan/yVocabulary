@@ -84,12 +84,14 @@ public:
     main_ = data.main_;
     target_ = data.target_;
     english_ = data.english_;
+    revealed_ = data.revealed_;
   }
   ~QData() {}
   QData &operator=(const QData& data) {
     main_ = data.main_;
     target_ = data.target_;
     english_ = data.english_;
+    revealed_ = data.revealed_;
     return *this;
   }
   QData(const Utils::Data &data)

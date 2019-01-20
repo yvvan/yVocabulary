@@ -18,30 +18,60 @@ Page {
             id: groupBox
             objectName: "target"
             width: innerSwipeView.width - 10
+            Layout.minimumWidth: innerSwipeView.width - 10
+            Layout.maximumWidth: innerSwipeView.width - 10
             title: qsTr("Current word")
 
-            RowLayout {
-                Label {
-                    id: label
-                    visible: current ? cpp_handler.translation.revealed : (next ? cpp_handler.next_translation.revealed : cpp_handler.prev_translation.revealed)
-                    Layout.minimumWidth: innerSwipeView.width - 30
-                    width: innerSwipeView.width - 30
-                    text: current ? cpp_handler.translation.target.translations : (next ? cpp_handler.next_translation.target.translations : cpp_handler.prev_translation.target.translations)
-                    wrapMode: Label.WordWrap
-                }
+            Label {
+                id: label
+                visible: current ? cpp_handler.translation.revealed : (next ? cpp_handler.next_translation.revealed : cpp_handler.prev_translation.revealed)
+                width: innerSwipeView.width - 20
+                text: current ? cpp_handler.translation.target.translations : (next ? cpp_handler.next_translation.target.translations : cpp_handler.prev_translation.target.translations)
+                wrapMode: Label.WordWrap
             }
         }
 
-        GroupBox {
-            id: groupBox2
-            width: app.width - 10
-            height: 200
-            title: qsTr("Group")
+        TabBar {
+            id: langBar
+            TabButton {
+                text: "Your Language"
+            }
+            TabButton {
+                text: "English"
+            }
+        }
+        StackLayout {
+            width: app.width
+            currentIndex: langBar.currentIndex
+            ColumnLayout {
+                GroupBox {
+                    width: innerSwipeView.width - 10
+                    Layout.minimumWidth: innerSwipeView.width - 10
+                    Layout.maximumWidth: innerSwipeView.width - 10
+                    title: qsTr("Translation")
 
-            Label {
-                id: label2
-                width: app.width - 30
-                text: "123" //cpp_handler.next_translation
+                    Label {
+                        width: innerSwipeView.width - 20
+                        text: current ? cpp_handler.translation.main.translations : (next ? cpp_handler.next_translation.main.translations : cpp_handler.prev_translation.main.translations)
+                        wrapMode: Label.WordWrap
+                    }
+                }
+                GroupBox {
+                    width: innerSwipeView.width - 10
+                    Layout.minimumWidth: innerSwipeView.width - 10
+                    Layout.maximumWidth: innerSwipeView.width - 10
+                    title: qsTr("Description")
+
+                    Label {
+                        width: innerSwipeView.width - 20
+                        text: current ? cpp_handler.translation.main.native_description : (next ? cpp_handler.next_translation.main.native_description : cpp_handler.prev_translation.main.native_description)
+                        wrapMode: Label.WordWrap
+                    }
+                }
+            }
+
+            Item {
+                id: discoverTab
             }
         }
 

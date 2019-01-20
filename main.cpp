@@ -53,26 +53,5 @@ int main(int argc, char *argv[])
 
   cpp_handler.setEngine(&engine);
 
-  //  QThread *logic_thread = QThread::create([&engine]() {
-  //    auto root_objects = engine.rootObjects();
-  //    assert(!root_objects.empty());
-
-  //    auto* page_name_label =
-  //    root_objects[0]->findChild<QObject*>("PageName");
-  //    page_name_label->setProperty("text", "changed from c++");
-  //  });
-
-  //  QObject::connect(logic_thread, &QThread::finished, [&engine]() {
-//    auto root_objects = engine.rootObjects();
-//    assert(!root_objects.empty());
-//    root_objects[0]->setProperty("height", 100);
-//  });
-//  logic_thread->start();
-
-//  ExecuteOnExit executeOnExit([logic_thread]() {
-//    logic_thread->wait();
-//    delete logic_thread;
-//  });
-
   return app.exec();
 }
