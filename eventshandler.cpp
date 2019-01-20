@@ -201,13 +201,7 @@ GenerateDataFieldGetter(GetSynonyms, synonyms_)
 GenerateDataFieldGetter(GetExamples, examples_)
 
 void EventsHandler::onNewWordsInCategoryClicked() {
-  if (one_shot_) {
-    revealed_ = true;
-  }
-
-  if (!revealed_) {
-    translator_->TranslateNext(category_);
-  }
+  translator_->TranslateNext(category_);
 
   auto root_objects = engine_->rootObjects();
   auto translation_message = root_objects[0]->findChild<QObject*>("TranslationMessage");
@@ -273,7 +267,11 @@ void EventsHandler::onNewWordsInCategoryClicked() {
 //    });
   }
 
-  current_translation_ = translation;
+  if (prev_translation_active_) {
+    next_translation_ = translation;
+  } else {
+    current_translation_ = translation;
+  }
   emit TranslationChanged();
 
   if (!IsTranslationGood(next_translation)) {
@@ -286,39 +284,43 @@ void EventsHandler::onNewWordsInCategoryClicked() {
       onNewWordsInCategoryClicked();
     });
   } else {
-    next_translation_ = next_translation;
-    emit NextTranslationChanged();
+    if (prev_translation_active_) {
+      prev_translation_ = next_translation;
+    } else {
+      next_translation_ = next_translation;
+    }
+    emit TranslationChanged();
   }
 }
 
 void EventsHandler::ClickNounsButton(bool) {
   category_ = initial_category_ = Utils::Key::Noun;
-  revealed_ = one_shot_ = false;
+  one_shot_ = false;
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::ClickVerbsButton(bool) {
   category_ = initial_category_ = Utils::Key::Verb;
-  revealed_ = one_shot_ = false;
+  one_shot_ = false;
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::ClickAdjectivesButton(bool) {
   category_ = initial_category_ = Utils::Key::Adjective;
-  revealed_ = one_shot_ = false;
+  one_shot_ = false;
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::ClickAdverbsButton(bool) {
   category_ = initial_category_ = Utils::Key::Adverb;
-  revealed_ = one_shot_ = false;
+  one_shot_ = false;
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::ClickAllButton(bool) {
   initial_category_ = Utils::Key::All;
   category_ = RandomCategory();
-  revealed_ = one_shot_ = false;
+  one_shot_ = false;
   onNewWordsInCategoryClicked();
 }
 
@@ -326,9 +328,11 @@ void EventsHandler::Swipe(bool forward) {
   if (current_action_ == CurrentAction::NewWords) {
     if (forward && !prev_translation_active_) {
       prev_translation_ = current_translation_;
-      emit PrevTranslationChanged();
+      current_translation_ = next_translation_;
+      next_translation_ = QData();
+      emit TranslationChanged();
       translator_->RemoveAt(category_, 0);
-      translator_->AddLeart(category_, current_translation_.toData());
+      translator_->AddLeart(category_, prev_translation_.toData());
       onNewWordsInCategoryClicked();
       return;
     }
@@ -339,9 +343,7 @@ void EventsHandler::Swipe(bool forward) {
       prev_translation_ = current_translation_;
       current_translation_ = next_translation_;
       next_translation_ = tmp;
-      emit PrevTranslationChanged();
       emit TranslationChanged();
-      emit NextTranslationChanged();
       return;
     }
 
@@ -350,8 +352,6 @@ void EventsHandler::Swipe(bool forward) {
     next_translation_ = current_translation_;
     current_translation_ = prev_translation_;
     prev_translation_ = tmp;
-    emit PrevTranslationChanged();
     emit TranslationChanged();
-    emit NextTranslationChanged();
   }
 }

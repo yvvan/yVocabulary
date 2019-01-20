@@ -143,8 +143,8 @@ class EventsHandler : public QObject {
   Q_PROPERTY(bool all_button READ Dummy WRITE ClickAllButton)
 
   Q_PROPERTY(QData* translation READ current_translation NOTIFY TranslationChanged)
-  Q_PROPERTY(QData* next_translation READ next_translation NOTIFY NextTranslationChanged)
-  Q_PROPERTY(QData* prev_translation READ prev_translation NOTIFY PrevTranslationChanged)
+  Q_PROPERTY(QData* next_translation READ next_translation NOTIFY TranslationChanged)
+  Q_PROPERTY(QData* prev_translation READ prev_translation NOTIFY TranslationChanged)
 
   Q_PROPERTY(bool swipe READ Dummy WRITE Swipe)
 public:
@@ -187,8 +187,6 @@ public:
 signals:
     void CancelRequests();
     void TranslationChanged();
-    void NextTranslationChanged();
-    void PrevTranslationChanged();
 
 private:
   bool IsEngineOnline() const;
@@ -210,7 +208,6 @@ private:
 
   Utils::Key initial_category_;
   Utils::Key category_;
-  bool revealed_;
   bool one_shot_;
   bool prev_translation_active_ = false;
 

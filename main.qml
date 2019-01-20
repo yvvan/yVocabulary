@@ -54,11 +54,14 @@ ApplicationWindow {
 
         TranslationsForm {
             innerSwipeView.onCurrentIndexChanged: {
-                //console.log(innerSwipeView.currentIndex)
+                //console.log(prevIndex + ", " + innerSwipeView.currentIndex)
+                if (prevIndex < innerSwipeView.currentIndex)
+                    cpp_handler.swipe = 1
+                else if (prevIndex > innerSwipeView.currentIndex)
+                    cpp_handler.swipe = 0
                 if (innerSwipeView.currentIndex == 2) {
                     innerSwipeView.moveItem(0, 3)
                 }
-                cpp_handler.swipe = (prevIndex <= innerSwipeView.currentIndex)
                 prevIndex = innerSwipeView.currentIndex
             }
         }
