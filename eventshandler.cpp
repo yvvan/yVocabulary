@@ -127,20 +127,6 @@ void EventsHandler::ClickNewButton(bool /*state*/) {
   NameCategoriesButtons();
 
   current_action_ = CurrentAction::NewWords;
-
-  //Translator translator(Utils::Language::English, Utils::Language::Russian);
-//  RequestEngine request_engine;
-//  request_engine.QueryWiktionary(Utils::Language::German, "Flug",
-//                                 [](std::string reply) {
-//                                   __android_log_write(ANDROID_LOG_DEBUG,
-//                                                       "yVocabulary",
-//                                                       reply.c_str());
-
-//                                 },
-//                                 [](){});
-
-//  auto* page_name_label = root_objects[0]->findChild<QObject*>("PageName");
-//  page_name_label->setProperty("text", "changed from c++");
 }
 
 void EventsHandler::ClickRepeatButton(bool /*state*/) {
@@ -180,56 +166,6 @@ static std::string CallName(const Utils::Data& data) { \
 GenerateDataFieldGetter(GetNativeDescription, native_description_)
 GenerateDataFieldGetter(GetSynonyms, synonyms_)
 GenerateDataFieldGetter(GetExamples, examples_)
-//static void AddTranslationData(QBoxLayout* layout,
-//                               const Utils::Data& translation,
-//                               Utils::Language main_language,
-//                               bool open_description,
-//                               bool revealed) {
-//  if (!translation.main_.translations_.isEmpty()) {
-//    auto native_label = std::make_unique<QLabel>(Utils::kLangNames[main_language] + ":");
-//    QFont font = native_label->font();
-//    font.setBold(true);
-//    font.setPointSize(8);
-//    native_label->setFont(font);
-//    layout->addWidget(native_label.release());
-//    auto tr_label = std::make_unique<QLabel>(translation.main_.translations_);
-//    tr_label->setWordWrap(true);
-//    layout->addWidget(tr_label.release());
-//  }
-
-//  if (!translation.english_.translations_.isEmpty()) {
-//    auto eng_label = std::make_unique<QLabel>("English:");
-//    QFont font = eng_label->font();
-//    font.setBold(true);
-//    font.setPointSize(8);
-//    eng_label->setFont(font);
-//    layout->addWidget(eng_label.release());
-//    auto tr_eng_label = std::make_unique<QLabel>(translation.english_.translations_);
-//    tr_eng_label->setWordWrap(true);
-//    layout->addWidget(tr_eng_label.release());
-//  }
-
-//  const auto& native_description = GetNativeDescription(translation);
-//  if (!native_description.isEmpty()) {
-//    layout->addWidget(std::make_unique<Spoiler>(
-//                        Utils::GetString(main_language, Utils::Description),
-//                        native_description, open_description).release());
-//  }
-
-//  const auto& synonyms = GetSynonyms(translation);
-//  if (!synonyms.isEmpty()) {
-//    layout->addWidget(std::make_unique<Spoiler>(
-//                        Utils::GetString(main_language, Utils::Synonyms),
-//                        synonyms).release());
-//  }
-
-//  const auto& examples = GetExamples(translation);
-//  if (revealed && !examples.isEmpty()) {
-//    layout->addWidget(std::make_unique<Spoiler>(
-//                        Utils::GetString(main_language, Utils::Examples),
-//                        examples).release());
-//  }
-//}
 
 void EventsHandler::onNewWordsInCategoryClicked() {
   if (one_shot_) {
@@ -304,21 +240,6 @@ void EventsHandler::onNewWordsInCategoryClicked() {
 //    });
   }
 
-//  if (!revealed) {
-//    auto translate_btn = std::make_unique<QPushButton>(Utils::GetString(main_language_, Utils::Reveal));
-//    connect(translate_btn.get(), &QPushButton::clicked, this, [this, initial_category, category]() {
-//      onNewWordsInCategoryClicked(initial_category, category, true);
-//    });
-//    ui_->scrollAreaLayout->addWidget(translate_btn.release());
-//  } else {
-//    auto orig_label = std::make_unique<QLabel>(translation.target_.translations_);
-//    QFont font = orig_label->font();
-//    font.setBold(true);
-//    font.setPointSize(14);
-//    orig_label->setFont(font);
-//    ui_->scrollAreaLayout->addWidget(orig_label.release());
-//  }
-
   current_translation_ = translation;
   emit TranslationChanged();
 
@@ -335,9 +256,6 @@ void EventsHandler::onNewWordsInCategoryClicked() {
     next_translation_ = next_translation;
     emit NextTranslationChanged();
   }
-//  AddTranslationData(ui_->scrollAreaLayout, translation, main_language_,
-//                     open_description, revealed);
-//  ui_->scrollAreaLayout->addStretch();
 }
 
 void EventsHandler::ClickNounsButton(bool) {
