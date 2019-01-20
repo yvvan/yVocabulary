@@ -18,11 +18,12 @@ Page {
             id: groupBox
             objectName: "target"
             width: innerSwipeView.width - 10
-            title: qsTr("Group")
+            title: qsTr("Current word")
 
             RowLayout {
                 Label {
                     id: label
+                    visible: current ? cpp_handler.translation.revealed : (next ? cpp_handler.next_translation.revealed : cpp_handler.prev_translation.revealed)
                     Layout.minimumWidth: innerSwipeView.width - 30
                     width: innerSwipeView.width - 30
                     text: current ? cpp_handler.translation.target.translations : (next ? cpp_handler.next_translation.target.translations : cpp_handler.prev_translation.target.translations)
@@ -42,6 +43,17 @@ Page {
                 width: app.width - 30
                 text: "123" //cpp_handler.next_translation
             }
+        }
+
+        Button {
+            id: button
+            text: qsTr("Reveal")
+            Layout.fillWidth: true
+            visible: current ? !cpp_handler.translation.revealed : (next ? !cpp_handler.next_translation.revealed : !cpp_handler.prev_translation.revealed)
+            onClicked: current ? cpp_handler.translation.revealed
+                                 = true : (next ? cpp_handler.next_translation.revealed
+                                                  = true : cpp_handler.prev_translation.revealed
+                                                  = true)
         }
     }
 }

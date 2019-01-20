@@ -74,6 +74,7 @@ Q_DECLARE_METATYPE(QDataEntry)
 
 class QData : public QObject {
   Q_OBJECT
+  Q_PROPERTY(bool revealed MEMBER revealed_ NOTIFY Changed)
   Q_PROPERTY(QDataEntry* main READ main NOTIFY Changed)
   Q_PROPERTY(QDataEntry* target READ target NOTIFY Changed)
   Q_PROPERTY(QDataEntry* english READ english NOTIFY Changed)
@@ -123,6 +124,7 @@ private:
   QDataEntry main_;
   QDataEntry target_;
   QDataEntry english_;
+  bool revealed_ = false;
 };
 
 Q_DECLARE_METATYPE(QData)
