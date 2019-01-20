@@ -15,7 +15,7 @@ Page {
         height: innerSwipeView.height
 
         GroupBox {
-            objectName: "target"
+            objectName: "current_word"
             width: innerSwipeView.width - 10
             Layout.minimumWidth: innerSwipeView.width - 10
             Layout.maximumWidth: innerSwipeView.width - 10
@@ -48,6 +48,7 @@ Page {
             currentIndex: langBar.currentIndex
             ColumnLayout {
                 GroupBox {
+                    objectName: "translation"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10
@@ -62,6 +63,7 @@ Page {
                     }
                 }
                 GroupBox {
+                    objectName: "description"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10
@@ -76,6 +78,7 @@ Page {
                     }
                 }
                 GroupBox {
+                    objectName: "synonyms"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10
@@ -90,6 +93,7 @@ Page {
                     }
                 }
                 GroupBox {
+                    objectName: "examples"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10
@@ -107,6 +111,7 @@ Page {
 
             ColumnLayout {
                 GroupBox {
+                    objectName: "en_translation"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10
@@ -121,6 +126,7 @@ Page {
                     }
                 }
                 GroupBox {
+                    objectName: "en_description"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10
@@ -135,6 +141,7 @@ Page {
                     }
                 }
                 GroupBox {
+                    objectName: "en_synonyms"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10
@@ -149,6 +156,7 @@ Page {
                     }
                 }
                 GroupBox {
+                    objectName: "en_examples"
                     width: innerSwipeView.width - 10
                     Layout.minimumWidth: innerSwipeView.width - 10
                     Layout.maximumWidth: innerSwipeView.width - 10

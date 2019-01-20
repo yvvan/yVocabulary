@@ -36,10 +36,43 @@ void EventsHandler::NameCategoriesButtons() {
       "text",
       QString::fromStdString(Utils::GetString(main_language_, Utils::All)));
 
-  root_objects[0]->findChild<QObject *>("target")->setProperty(
+  root_objects[0]->findChild<QObject *>("current_word")->setProperty(
       "title",
       QString::fromStdString(
           Utils::GetString(main_language_, Utils::CurrentWord)));
+
+  root_objects[0]->findChild<QObject *>("translation")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(main_language_, Utils::Translation)));
+  root_objects[0]->findChild<QObject *>("description")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(main_language_, Utils::Meaning)));
+  root_objects[0]->findChild<QObject *>("synonyms")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(main_language_, Utils::Synonyms)));
+  root_objects[0]->findChild<QObject *>("examples")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(main_language_, Utils::Examples)));
+  root_objects[0]->findChild<QObject *>("en_translation")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(Utils::English, Utils::Translation)));
+  root_objects[0]->findChild<QObject *>("en_description")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(Utils::English, Utils::Meaning)));
+  root_objects[0]->findChild<QObject *>("en_synonyms")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(Utils::English, Utils::Synonyms)));
+  root_objects[0]->findChild<QObject *>("en_examples")->setProperty(
+      "title",
+      QString::fromStdString(
+          Utils::GetString(Utils::English, Utils::Examples)));
 }
 
 bool EventsHandler::IsEngineOnline() const {
