@@ -202,7 +202,7 @@ private:
   QData current_translation_;
   QData next_translation_;
 
-  Utils::Language main_language_ = Utils::Russian;
+  Utils::Language main_language_ = Utils::English;
   Utils::Language target_language_ = Utils::German;
   CurrentAction current_action_ = CurrentAction::None;
 

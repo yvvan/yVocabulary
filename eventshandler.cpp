@@ -232,7 +232,7 @@ void EventsHandler::onNewWordsInCategoryClicked() {
     translation_message->setProperty("text", QString::fromStdString(error));
     return;
   }
-  bool open_description = false;
+  translation_message->setProperty("visible", false);
 
   if (translation.main_.translations_.empty() &&
       translation.english_.translations_.empty()) {
@@ -250,7 +250,6 @@ void EventsHandler::onNewWordsInCategoryClicked() {
       translation_message->setProperty("text", QString::fromStdString(error));
       return;
     }
-    open_description = true;
   }
 
   if (!one_shot_) {

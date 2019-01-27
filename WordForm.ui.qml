@@ -10,6 +10,7 @@ Page {
 
     ScrollView {
         anchors.fill: parent
+        contentWidth: -1
 
         ColumnLayout {
             x: 0
@@ -77,7 +78,7 @@ Page {
                         Label {
                             id: desc_label
                             width: innerSwipeView.width - 20
-                            text: current ? cpp_handler.translation.main.native_description : (next ? cpp_handler.next_translation.main.native_description : cpp_handler.prev_translation.main.native_description)
+                            text: current ? cpp_handler.translation.target.native_description : (next ? cpp_handler.next_translation.target.native_description : cpp_handler.prev_translation.target.native_description)
                             wrapMode: Label.WordWrap
                         }
                     }
@@ -92,7 +93,7 @@ Page {
                         Label {
                             id: syn_label
                             width: innerSwipeView.width - 20
-                            text: current ? cpp_handler.translation.main.synonyms : (next ? cpp_handler.next_translation.main.synonyms : cpp_handler.prev_translation.main.synonyms)
+                            text: current ? cpp_handler.translation.target.synonyms : (next ? cpp_handler.next_translation.target.synonyms : cpp_handler.prev_translation.target.synonyms)
                             wrapMode: Label.WordWrap
                         }
                     }
@@ -107,7 +108,7 @@ Page {
                         Label {
                             id: ex_label
                             width: innerSwipeView.width - 20
-                            text: current ? cpp_handler.translation.main.examples : (next ? cpp_handler.next_translation.main.examples : cpp_handler.prev_translation.main.examples)
+                            text: current ? cpp_handler.translation.target.examples : (next ? cpp_handler.next_translation.target.examples : cpp_handler.prev_translation.target.examples)
                             wrapMode: Label.WordWrap
                         }
                     }
