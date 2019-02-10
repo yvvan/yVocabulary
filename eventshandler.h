@@ -141,12 +141,14 @@ class EventsHandler : public QObject {
   Q_PROPERTY(bool adjectives_button READ Dummy WRITE ClickAdjectivesButton)
   Q_PROPERTY(bool adverbs_button READ Dummy WRITE ClickAdverbsButton)
   Q_PROPERTY(bool all_button READ Dummy WRITE ClickAllButton)
+  Q_PROPERTY(bool prev_translation_active MEMBER prev_translation_active_ NOTIFY PreviousStateChanged)
 
   Q_PROPERTY(QData* translation READ current_translation NOTIFY TranslationChanged)
   Q_PROPERTY(QData* next_translation READ next_translation NOTIFY TranslationChanged)
   Q_PROPERTY(QData* prev_translation READ prev_translation NOTIFY TranslationChanged)
 
   Q_PROPERTY(bool swipe READ Dummy WRITE Swipe)
+  Q_PROPERTY(bool remove READ Dummy WRITE Remove)
 public:
   EventsHandler();
   ~EventsHandler();
@@ -165,6 +167,7 @@ public:
   void ClickAllButton(bool state);
 
   void Swipe(bool forward);
+  void Remove(bool state);
 
   Utils::Language MainLanguage() const {
     return main_language_;
@@ -187,6 +190,7 @@ public:
 signals:
     void CancelRequests();
     void TranslationChanged();
+    void PreviousStateChanged();
 
 private:
   bool IsEngineOnline() const;

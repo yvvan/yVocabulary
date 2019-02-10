@@ -404,6 +404,7 @@ void EventsHandler::Swipe(bool forward) {
     prev_translation_ = current_translation_;
     current_translation_ = next_translation_;
     next_translation_ = tmp;
+    emit PreviousStateChanged();
     emit TranslationChanged();
     return;
   }
@@ -413,5 +414,10 @@ void EventsHandler::Swipe(bool forward) {
   next_translation_ = current_translation_;
   current_translation_ = prev_translation_;
   prev_translation_ = tmp;
+  emit PreviousStateChanged();
   emit TranslationChanged();
+}
+
+void EventsHandler::Remove(bool state) {
+  // TODO: remove the current one.
 }

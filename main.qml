@@ -53,6 +53,13 @@ ApplicationWindow {
         }
 
         TranslationsForm {
+            backButton.onClicked: {
+                swipeView.currentIndex = 1
+            }
+            removeButton.onClicked: {
+                cpp_handler.remove = 1
+            }
+
             innerSwipeView.onCurrentIndexChanged: {
                 //console.log(prevIndex + ", " + innerSwipeView.currentIndex)
                 if (prevIndex < innerSwipeView.currentIndex)

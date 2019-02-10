@@ -13,6 +13,8 @@ Page {
     property alias page1: page1
     property alias innerSwipeView: innerSwipeView
     property alias caption: caption
+    property alias backButton: backButton
+    property alias removeButton: removeButton
     property int prevIndex: 0
 
     ColumnLayout {
@@ -79,6 +81,7 @@ Page {
                 id: removeButton
                 text: "Remove"
                 Layout.fillWidth: true
+                visible: !cpp_handler.prev_translation_active
                 Material.background: Material.Red
             }
         }
