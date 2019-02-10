@@ -148,6 +148,7 @@ class EventsHandler : public QObject {
   Q_PROPERTY(QData* prev_translation READ prev_translation NOTIFY TranslationChanged)
 
   Q_PROPERTY(bool swipe READ Dummy WRITE Swipe)
+  Q_PROPERTY(bool back READ Dummy WRITE Back)
   Q_PROPERTY(bool remove READ Dummy WRITE Remove)
 public:
   EventsHandler();
@@ -167,6 +168,7 @@ public:
   void ClickAllButton(bool state);
 
   void Swipe(bool forward);
+  void Back(bool state);
   void Remove(bool state);
 
   Utils::Language MainLanguage() const {

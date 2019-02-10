@@ -418,6 +418,26 @@ void EventsHandler::Swipe(bool forward) {
   emit TranslationChanged();
 }
 
-void EventsHandler::Remove(bool state) {
-  // TODO: remove the current one.
+void EventsHandler::Back(bool /*state*/) {
+  current_translation_ = next_translation_ = prev_translation_ = QData();
+  prev_translation_active_ = false;
+  emit PreviousStateChanged();
+  emit TranslationChanged();
+}
+
+void EventsHandler::Remove(bool /*state*/) {
+  current_translation_ = next_translation_;
+  next_translation_ = QData();
+
+  if (current_action_ == CurrentAction::NewWords) {
+    if (translator_->IsAnythingLeft(initial_category_, category_)) {
+      translator_->RemoveAt(category_, 0);
+    }
+  } else {
+    if (!translator_->IsLearningListEmpty()) {
+      translator_->RemoveLearningListFirst();
+    }
+  }
+
+  onNewWordsInCategoryClicked();
 }

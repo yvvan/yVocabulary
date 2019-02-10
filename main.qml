@@ -55,6 +55,8 @@ ApplicationWindow {
         TranslationsForm {
             backButton.onClicked: {
                 swipeView.currentIndex = 1
+                innerSwipeView.currentIndex = 0
+                cpp_handler.back = 1
             }
             removeButton.onClicked: {
                 cpp_handler.remove = 1
