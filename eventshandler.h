@@ -193,6 +193,7 @@ private:
 
   void NameCategoriesButtons();
   void onNewWordsInCategoryClicked();
+  void onRepeatWordsInCategoryClicked();
 
   QQmlApplicationEngine* engine_ = nullptr;
 

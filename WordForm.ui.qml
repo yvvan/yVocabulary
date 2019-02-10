@@ -11,6 +11,7 @@ Page {
     ScrollView {
         anchors.fill: parent
         contentWidth: -1
+        visible: currentWord.text.length > 0
 
         ColumnLayout {
             x: 0
@@ -26,6 +27,7 @@ Page {
                 title: qsTr("Current word")
 
                 Label {
+                    id: currentWord
                     visible: current ? cpp_handler.translation.revealed : (next ? cpp_handler.next_translation.revealed : cpp_handler.prev_translation.revealed)
                     width: innerSwipeView.width - 20
                     text: current ? cpp_handler.translation.target.translations : (next ? cpp_handler.next_translation.target.translations : cpp_handler.prev_translation.target.translations)

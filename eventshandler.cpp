@@ -12,7 +12,11 @@
 
 EventsHandler::EventsHandler() = default;
 
-EventsHandler::~EventsHandler() = default;
+EventsHandler::~EventsHandler() {
+  if (translator_) {
+    translator_->Save();
+  }
+}
 
 void EventsHandler::NameCategoriesButtons() {
   auto root_objects = engine_->rootObjects();
@@ -81,8 +85,6 @@ bool EventsHandler::IsEngineOnline() const {
 
 static void HandleError(QNetworkReply* reply) {
   qWarning() <<"ErrorNo: "<< reply->error() << "for url: " << reply->url().toString();
-  qDebug() << "Request failed, " << reply->errorString();
-  qDebug() << "Headers:"<<  reply->rawHeaderList()<< "content:" << reply->readAll();
   reply->deleteLater();
 }
 
@@ -200,7 +202,45 @@ GenerateDataFieldGetter(GetNativeDescription, native_description_)
 GenerateDataFieldGetter(GetSynonyms, synonyms_)
 GenerateDataFieldGetter(GetExamples, examples_)
 
+void EventsHandler::onRepeatWordsInCategoryClicked() {
+  auto root_objects = engine_->rootObjects();
+  auto translation_message = root_objects[0]->findChild<QObject*>("TranslationMessage");
+
+  if (translator_->IsLearningListEmpty()) {
+    translation_message->setProperty("visible", true);
+    translation_message->setProperty("text", QString::fromStdString(Utils::GetString(main_language_, Utils::AllRepeated)));
+    return;
+  }
+
+  translation_message->setProperty("visible", false);
+
+  auto translation = translator_->GetLearningListAt(0);
+  Utils::Data next_translation;
+  if (translator_->LearningListSize() > 1)
+    next_translation = translator_->GetLearningListAt(1);
+
+  if (prev_translation_active_) {
+    next_translation_ = translation;
+    prev_translation_ = next_translation;
+  } else {
+    current_translation_ = translation;
+    next_translation_ = next_translation;
+  }
+
+  emit TranslationChanged();
+//  auto remove_btn = std::make_unique<QPushButton>(Utils::GetString(main_language_, Utils::Remove));
+//  connect(remove_btn.get(), &QPushButton::clicked, this, [this, translation]() {
+//    translator_->RemoveLearningListFirst();
+//    onRepeatWordsInCategoryClicked();;
+//  });
+//  top_buttons->addWidget(remove_btn.release());
+}
+
 void EventsHandler::onNewWordsInCategoryClicked() {
+  if (current_action_ == CurrentAction::RepeatWords) {
+    return onRepeatWordsInCategoryClicked();
+  }
+
   translator_->TranslateNext(category_);
 
   auto root_objects = engine_->rootObjects();
@@ -295,24 +335,36 @@ void EventsHandler::onNewWordsInCategoryClicked() {
 void EventsHandler::ClickNounsButton(bool) {
   category_ = initial_category_ = Utils::Key::Noun;
   one_shot_ = false;
+  if (current_action_ == CurrentAction::RepeatWords) {
+    translator_->GenerateLearningList(category_);
+  }
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::ClickVerbsButton(bool) {
   category_ = initial_category_ = Utils::Key::Verb;
   one_shot_ = false;
+  if (current_action_ == CurrentAction::RepeatWords) {
+    translator_->GenerateLearningList(category_);
+  }
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::ClickAdjectivesButton(bool) {
   category_ = initial_category_ = Utils::Key::Adjective;
   one_shot_ = false;
+  if (current_action_ == CurrentAction::RepeatWords) {
+    translator_->GenerateLearningList(category_);
+  }
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::ClickAdverbsButton(bool) {
   category_ = initial_category_ = Utils::Key::Adverb;
   one_shot_ = false;
+  if (current_action_ == CurrentAction::RepeatWords) {
+    translator_->GenerateLearningList(category_);
+  }
   onNewWordsInCategoryClicked();
 }
 
@@ -320,37 +372,46 @@ void EventsHandler::ClickAllButton(bool) {
   initial_category_ = Utils::Key::All;
   category_ = RandomCategory();
   one_shot_ = false;
+  if (current_action_ == CurrentAction::RepeatWords) {
+    translator_->GenerateLearningList(initial_category_);
+  }
   onNewWordsInCategoryClicked();
 }
 
 void EventsHandler::Swipe(bool forward) {
-  if (current_action_ == CurrentAction::NewWords) {
-    if (forward && !prev_translation_active_) {
-      prev_translation_ = current_translation_;
-      current_translation_ = next_translation_;
-      next_translation_ = QData();
-      emit TranslationChanged();
-      translator_->RemoveAt(category_, 0);
-      translator_->AddLeart(category_, prev_translation_.toData());
-      onNewWordsInCategoryClicked();
-      return;
-    }
-
-    if (forward) {
-      prev_translation_active_ = false;
-      auto tmp = prev_translation_;
-      prev_translation_ = current_translation_;
-      current_translation_ = next_translation_;
-      next_translation_ = tmp;
-      emit TranslationChanged();
-      return;
-    }
-
-    prev_translation_active_ = true;
-    auto tmp = next_translation_;
-    next_translation_ = current_translation_;
-    current_translation_ = prev_translation_;
-    prev_translation_ = tmp;
+  if (forward && !prev_translation_active_) {
+    prev_translation_ = current_translation_;
+    current_translation_ = next_translation_;
+    next_translation_ = QData();
     emit TranslationChanged();
+    if (current_action_ == CurrentAction::NewWords) {
+      if (translator_->IsAnythingLeft(initial_category_, category_)) {
+        translator_->RemoveAt(category_, 0);
+        translator_->AddLearnt(category_, prev_translation_.toData());
+      }
+    } else {
+      if (!translator_->IsLearningListEmpty()) {
+        translator_->PopLearningListFirst();
+      }
+    }
+    onNewWordsInCategoryClicked();
+    return;
   }
+
+  if (forward) {
+    prev_translation_active_ = false;
+    auto tmp = prev_translation_;
+    prev_translation_ = current_translation_;
+    current_translation_ = next_translation_;
+    next_translation_ = tmp;
+    emit TranslationChanged();
+    return;
+  }
+
+  prev_translation_active_ = true;
+  auto tmp = next_translation_;
+  next_translation_ = current_translation_;
+  current_translation_ = prev_translation_;
+  prev_translation_ = tmp;
+  emit TranslationChanged();
 }

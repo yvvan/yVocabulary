@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
   QQmlApplicationEngine engine;
 
-  const QUrl mainQml(QStringLiteral("qrc:/main.qml"));
+  const QUrl main_qml(QStringLiteral("qrc:/main.qml"));
 
   // Catch the objectCreated signal, so that we can determine if the root component was loaded
   // successfully. If not, then the object created from it will be null. The root component may
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
   const QMetaObject::Connection connection =
       QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app,
                        [&](QObject *object, const QUrl &url) {
-                         if (url != mainQml)
+                         if (url != main_qml)
                            return;
 
                          if (!object)
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
   EventsHandler cpp_handler;
   engine.rootContext()->setContextProperty("cpp_handler", &cpp_handler);
-  engine.load(mainQml);
+  engine.load(main_qml);
 
   cpp_handler.setEngine(&engine);
 
